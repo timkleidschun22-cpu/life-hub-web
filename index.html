@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#080b13">
+  <meta name="robots" content="noindex,nofollow,noarchive">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Life Hub</title>
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <style>
+    :root{--bg:#080b13;--panel:#101521;--card:#151c2b;--border:#263047;--text:#f2f4f8;--muted:#96a0b8;--accent:#9ae6b4;--accent2:#8eb6ff}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    button,input{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:flex;flex-direction:column}.top{min-height:98px;border-bottom:1px solid var(--border);padding:16px 24px;display:flex;justify-content:space-between;align-items:center;gap:20px}.kicker,.eyebrow{color:var(--accent2);font-size:11px;letter-spacing:1.5px;font-weight:800}.kicker{color:var(--accent);letter-spacing:2px}.title{font-size:28px;font-weight:800;margin-top:3px}.topright{display:flex;align-items:center;gap:18px}.level{width:210px}.levelrow{font-weight:800;margin-bottom:6px}.track{height:7px;background:#222a3b;border-radius:99px;overflow:hidden}.fill{height:100%;background:var(--accent);border-radius:99px}.small{color:var(--muted);font-size:12px;margin-top:5px}.safe{padding-left:12px;border-left:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:6px}.switch{width:42px;height:24px;border:0;border-radius:20px;background:#30384a;position:relative}.switch:after{content:"";position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;left:3px;top:3px;transition:.18s}.switch.on{background:var(--accent)}.switch.on:after{left:21px}.body{flex:1;display:flex;min-height:0}.sidebar{width:145px;border-right:1px solid var(--border);padding:12px;display:flex;flex-direction:column;gap:8px}.nav{border:0;background:transparent;color:var(--muted);font-weight:700;text-align:left;padding:13px 14px;border-radius:12px}.nav.active{background:#1d283a;color:var(--text)}.spacer{flex:1}.side-note{color:var(--muted);font-size:11px;padding:10px}.content{flex:1;overflow:auto;padding:20px 20px 40px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-bottom:16px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:18px;margin-bottom:16px}.card.focus{background:#121d26}.card h2{font-size:20px;margin:6px 0 12px}.quest-row,.quest-block{border-top:1px solid var(--border);padding:11px 0}.row{display:flex;align-items:center;justify-content:space-between;gap:12px}.quest-title{font-size:15px;font-weight:700}.plus{border:0;background:transparent;color:var(--accent);font-size:18px;font-weight:900;padding:8px}.signal{color:#d5dbe8;font-size:14px;line-height:20px;margin:0 0 9px}.capture{display:flex;gap:10px}.capture input{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:12px;color:var(--text);padding:12px 14px;font-size:16px}.primary{border:0;background:var(--accent);color:#07130c;font-weight:900;border-radius:12px;padding:12px 16px}.secondary{border:1px solid var(--border);background:#1a2232;color:var(--text);font-weight:700;border-radius:10px;padding:9px 12px}.capture-item{color:var(--muted);font-size:13px;margin-top:10px}.bodytext{color:var(--muted);font-size:14px;line-height:21px}.progress{margin-top:10px;height:7px;border-radius:99px;overflow:hidden;background:#222a3b}.progress>div{height:100%;background:var(--accent2)}.map{height:330px;border-radius:16px;background:#0e1420;border:1px solid var(--border);position:relative;overflow:hidden;margin-bottom:14px}.node{position:absolute;transform:translate(-50%,-50%);width:104px;height:50px;border-radius:25px;background:#1a2435;border:1px solid #3a4762;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;z-index:2}.node.core{width:120px;height:60px;background:var(--accent);color:#07130c}.link{position:absolute;height:2px;background:#35435e;transform-origin:left center;z-index:1}.feed{border-top:1px solid var(--border);padding:12px 0}.hidden{display:none!important}.install-note{font-size:12px;color:var(--muted);padding-top:8px}
+    @media(max-width:760px){.top{padding:14px 16px;align-items:flex-start}.title{font-size:22px}.topright{gap:10px}.level{width:140px}.body{display:block}.sidebar{width:100%;border-right:0;border-bottom:1px solid var(--border);flex-direction:row;overflow-x:auto;padding:8px}.nav{white-space:nowrap}.spacer,.side-note{display:none}.content{padding:14px}.grid{grid-template-columns:1fr}.capture{flex-direction:column}.safe{display:none}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div><div class="kicker">LIFE HUB · WEB</div><div class="title">Deine Welt, gerade jetzt</div></div>
+    <div class="topright">
+      <div class="level"><div class="levelrow" id="levelLabel">LVL 1</div><div class="track"><div class="fill" id="levelFill" style="width:0"></div></div><div class="small" id="xpLabel">0 XP · nur reale Fortschritte</div></div>
+      <div class="safe"><div class="small">Safe Mode</div><button id="safeToggle" class="switch" aria-label="Safe Mode umschalten"></button></div>
+    </div>
+  </header>
+  <div class="body">
+    <nav class="sidebar">
+      <button class="nav active" data-tab="hub">Hub</button>
+      <button class="nav" data-tab="quests">Quests</button>
+      <button class="nav" data-tab="map">Map</button>
+      <button class="nav" data-tab="updates">Updates</button>
+      <button class="nav" data-tab="system">System</button>
+      <div class="spacer"></div><div class="side-note" id="systemState">System aktiv</div>
+    </nav>
+    <main class="content">
+      <section id="tab-hub">
+        <div class="grid">
+          <div class="card focus"><div class="eyebrow">CURRENT QUESTS</div><h2>Was jetzt zählt</h2><div id="hubQuests"></div></div>
+          <div class="card"><div class="eyebrow">OPEN SIGNALS</div><h2>Noch unklar</h2><p class="signal">• Welche Hub-Ansicht wird im Alltag am häufigsten nützlich?</p><p class="signal">• Welche Daten gehören wirklich dauerhaft ins System?</p><p class="signal">• Welche Synchronisation erzeugt am wenigsten Reibung?</p></div>
+        </div>
+        <div class="card"><div class="eyebrow">QUICK CAPTURE</div><h2>Gedanke rein. Später wird er eingeordnet.</h2><form class="capture" id="captureForm"><input id="captureInput" autocomplete="off" placeholder="Gedanke, Idee, Erinnerung, Beobachtung…"><button class="primary">Speichern</button></form><div id="captureList"></div></div>
+        <div class="grid"><div class="card"><div class="eyebrow">SYSTEM UPDATE</div><h2 id="systemUpdateTitle">Keine Updates</h2><div class="bodytext" id="systemUpdateBody"></div></div><div class="card"><div class="eyebrow">LIFE UPDATE</div><h2 id="lifeUpdateTitle">Keine Updates</h2><div class="bodytext" id="lifeUpdateBody"></div></div></div>
+      </section>
+      <section id="tab-quests" class="hidden"><div class="card"><div class="eyebrow">QUEST BOARD</div><h2>Ziele bleiben flexibel, Fortschritt bleibt sichtbar.</h2><div id="questBoard"></div><div class="small" id="doneCount"></div></div></section>
+      <section id="tab-map" class="hidden"><div class="card"><div class="eyebrow">LIFE MAP</div><h2>Ein lebendes Modell deiner Bereiche</h2><div class="map"><div class="node core" style="left:50%;top:50%">Ich</div><div class="node" style="left:16%;top:20%">Japanisch</div><div class="node" style="left:82%;top:18%">Menschen</div><div class="node" style="left:15%;top:80%">Körper</div><div class="node" style="left:84%;top:78%">Zukunft</div><div class="link" style="left:27%;top:34%;width:25%;transform:rotate(30deg)"></div><div class="link" style="left:52%;top:33%;width:25%;transform:rotate(-30deg)"></div><div class="link" style="left:26%;top:63%;width:27%;transform:rotate(-32deg)"></div><div class="link" style="left:52%;top:62%;width:28%;transform:rotate(31deg)"></div></div><div class="bodytext">Die Map zeigt bewusst nur die Grundstruktur. Später können Verbindungen, Cluster und Wichtigkeiten kontrolliert weiterentwickelt werden.</div></div></section>
+      <section id="tab-updates" class="hidden"><div class="grid"><div class="card"><div class="eyebrow">SYSTEM PATCH NOTES</div><h2>Was sich am System verändert</h2><div id="systemFeed"></div></div><div class="card"><div class="eyebrow">LIFE CHANGELOG</div><h2>Was sich bei dir verändert</h2><div id="lifeFeed"></div></div></div></section>
+      <section id="tab-system" class="hidden">
+        <div class="grid">
+          <div class="card"><div class="eyebrow">CONSTITUTION</div><h2>Harte Grenzen</h2><p class="signal">• Keine Kommunikation in deinem Namen.</p><p class="signal">• Kein Geld ausgeben oder Abos abschließen.</p><p class="signal">• Keine neue externe Integration ohne deine Zustimmung.</p><p class="signal">• Bei sehr privaten Daten vor externer Weitergabe fragen.</p><p class="signal">• Potenziell „nicht speichern“-private Daten nicht ungefragt dauerhaft speichern.</p></div>
+          <div class="card"><div class="eyebrow">SYSTEM HEALTH</div><h2 id="healthTitle">Autonomie aktiv</h2><div class="bodytext">Diese Web-Version arbeitet lokal. Persönliche Daten bleiben in diesem Browser; es gibt noch keinen Server-Sync und keine externe AI-Verbindung.</div><button class="primary" id="exportBtn" style="margin-top:16px">Snapshot exportieren</button></div>
+        </div>
+        <div class="card"><div class="eyebrow">WEB ARCHITECTURE</div><h2>Browser-first, lokal nutzbar</h2><div class="bodytext">PWA → lokale IndexedDB-Datenbasis → später kontrollierte Sync-/AI-Schicht → Obsidian und ausdrücklich freigegebene Dienste.</div><div class="install-note">Auf Android kann diese Seite über den Browser zum Startbildschirm hinzugefügt werden.</div></div>
+      </section>
+    </main>
+  </div>
+</div>
+<script>
+const DB='lifehub-web', VER=1;
+let db;
+const seedQuests=[
+  {title:'Japanisch aktiv anwenden',domain:'Japanisch',progress:2,target:5,xp:40,status:'active'},
+  {title:'Life Hub V1 im Alltag testen',domain:'System',progress:1,target:7,xp:60,status:'active'},
+  {title:'Eine reale neue Erfahrung suchen',domain:'Erleben',progress:0,target:1,xp:35,status:'active'}
+];
+function openDb(){return new Promise((res,rej)=>{const r=indexedDB.open(DB,VER);r.onupgradeneeded=()=>{const d=r.result;if(!d.objectStoreNames.contains('kv'))d.createObjectStore('kv',{keyPath:'key'});if(!d.objectStoreNames.contains('quests'))d.createObjectStore('quests',{keyPath:'id',autoIncrement:true});if(!d.objectStoreNames.contains('feed'))d.createObjectStore('feed',{keyPath:'id',autoIncrement:true});if(!d.objectStoreNames.contains('captures'))d.createObjectStore('captures',{keyPath:'id',autoIncrement:true})};r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function req(r){return new Promise((res,rej)=>{r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+function store(name,mode='readonly'){return db.transaction(name,mode).objectStore(name)}
+async function all(name){return req(store(name).getAll())}
+async function one(name,key){return req(store(name).get(key))}
+async function put(name,val){return req(store(name,'readwrite').put(val))}
+async function add(name,val){return req(store(name,'readwrite').add(val))}
+async function init(){db=await openDb();if((await all('quests')).length===0)for(const q of seedQuests)await add('quests',q);if((await all('feed')).length===0){const now=new Date().toISOString();await add('feed',{kind:'system',title:'Life Hub Web gestartet',body:'Lokale Browser-Datenbasis und Web-Hub sind aktiv.',createdAt:now});await add('feed',{kind:'life',title:'Startpunkt',body:'Die Web-Version beginnt lokal und wird aus realer Nutzung weiterentwickelt.',createdAt:now})}if(!await one('kv','safeMode'))await put('kv',{key:'safeMode',value:'0'});if(!await one('kv','xp'))await put('kv',{key:'xp',value:'180'});await render()}
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function state(){const qs=await all('quests'),feed=(await all('feed')).sort((a,b)=>b.id-a.id),caps=(await all('captures')).sort((a,b)=>b.id-a.id),safe=(await one('kv','safeMode'))?.value==='1',xp=Number((await one('kv','xp'))?.value||0);return{qs,feed,caps,safe,xp}}
+async function advance(id){const q=await one('quests',id);if(!q||q.status==='done')return;const n=Math.min(q.progress+1,q.target),done=n>=q.target;await put('quests',{...q,progress:n,status:done?'done':q.status});if(done){const x=Number((await one('kv','xp'))?.value||0);await put('kv',{key:'xp',value:String(x+q.xp)});await add('feed',{kind:'life',title:'Quest abgeschlossen',body:q.title+' · +'+q.xp+' XP',createdAt:new Date().toISOString()})}await render()}
+async function render(){const s=await state(),lvl=Math.floor(s.xp/100)+1,p=s.xp%100;levelLabel.textContent='LVL '+lvl;levelFill.style.width=p+'%';xpLabel.textContent=s.xp+' XP · nur reale Fortschritte';safeToggle.classList.toggle('on',s.safe);systemState.textContent=s.safe?'Autonomie pausiert':'System aktiv';healthTitle.textContent=s.safe?'Safe Mode aktiv':'Autonomie aktiv';
+const active=s.qs.filter(q=>q.status==='active');hubQuests.innerHTML=active.slice(0,3).map(q=>'<div class="quest-row row"><div><div class="quest-title">'+esc(q.title)+'</div><div class="small">'+esc(q.domain)+' · '+q.progress+'/'+q.target+'</div></div><button class="plus" data-advance="'+q.id+'">+1</button></div>').join('');
+questBoard.innerHTML=s.qs.map(q=>{const pct=Math.min(100,Math.round(q.progress/Math.max(q.target,1)*100));return'<div class="quest-block"><div class="row"><div><div class="quest-title">'+esc(q.title)+'</div><div class="small">'+esc(q.domain)+' · '+q.status+' · '+q.xp+' XP</div></div>'+(q.status!=='done'?'<button class="secondary" data-advance="'+q.id+'">+ Fortschritt</button>':'')+'</div><div class="progress"><div style="width:'+pct+'%"></div></div></div>'}).join('');
+doneCount.textContent='Abgeschlossen: '+s.qs.filter(q=>q.status==='done').length+'. XP wird nur für echte Quest-Abschlüsse vergeben.';
+captureList.innerHTML=s.caps.slice(0,3).map(c=>'<div class="capture-item">↳ '+esc(c.text)+'</div>').join('');
+const sys=s.feed.find(f=>f.kind==='system'),life=s.feed.find(f=>f.kind==='life');systemUpdateTitle.textContent=sys?.title||'Keine Updates';systemUpdateBody.textContent=sys?.body||'';lifeUpdateTitle.textContent=life?.title||'Keine Updates';lifeUpdateBody.textContent=life?.body||'';
+systemFeed.innerHTML=s.feed.filter(f=>f.kind==='system').map(f=>'<div class="feed"><div class="quest-title">'+esc(f.title)+'</div><div class="bodytext">'+esc(f.body)+'</div></div>').join('');lifeFeed.innerHTML=s.feed.filter(f=>f.kind==='life').map(f=>'<div class="feed"><div class="quest-title">'+esc(f.title)+'</div><div class="bodytext">'+esc(f.body)+'</div></div>').join('')}
+document.addEventListener('click',async e=>{const a=e.target.closest('[data-advance]');if(a)await advance(Number(a.dataset.advance));const nav=e.target.closest('.nav');if(nav){document.querySelectorAll('.nav').forEach(n=>n.classList.remove('active'));nav.classList.add('active');document.querySelectorAll('main>section').forEach(s=>s.classList.add('hidden'));document.getElementById('tab-'+nav.dataset.tab).classList.remove('hidden')}});
+safeToggle.onclick=async()=>{const s=await state();await put('kv',{key:'safeMode',value:s.safe?'0':'1'});await render()};
+captureForm.onsubmit=async e=>{e.preventDefault();const t=captureInput.value.trim();if(!t)return;await add('captures',{text:t,createdAt:new Date().toISOString()});captureInput.value='';await render()};
+exportBtn.onclick=async()=>{const s=await state(),snapshot={version:1,platform:'web',exportedAt:new Date().toISOString(),safeMode:s.safe,xp:s.xp,quests:s.qs,feed:s.feed,captures:s.caps};const blob=new Blob([JSON.stringify(snapshot,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='life-hub-snapshot-'+Date.now()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)};
+if('serviceWorker'in navigator)window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+init().catch(err=>{document.body.innerHTML='<pre style="color:white;padding:20px">Life Hub konnte nicht geladen werden.\n'+esc(err)+'</pre>'});
+</script>
+</body>
+</html>
