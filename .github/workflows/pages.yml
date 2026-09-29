@@ -1,16 +1,9 @@
 name: Deploy Life Hub Web
 
 on:
-  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
-      - 'index.html'
-      - 'manifest.webmanifest'
-      - 'icon.svg'
-      - 'sw.js'
-      - 'robots.txt'
-      - '.nojekyll'
       - '.github/workflows/pages.yml'
 
 permissions:
@@ -28,19 +21,72 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Download verified Life Hub web artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p site
+          curl --fail --location --retry 3 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-4300-8206-a72f-79d116435442/raw?se=2026-09-29T22%3A25%3A25Z&sp=r&sv=2026-02-06&sr=b&scid=a93f7c83-fa58-5ca2-b509-1a620ce20f33&skoid=1e4bb9ed-6bb5-424a-a3aa-79f21566e722&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-29T11%3A05%3A36Z&ske=2026-09-30T11%3A05%3A36Z&sks=b&skv=2026-02-06&sig=kOhobNDnJAo3lupAm%2BBoJsFE/1yS94LWoLvuASUMyoU%3D' -o /tmp/life-hub-web.zip
+          unzip -q /tmp/life-hub-web.zip -d site
+
+      - name: Verify deployment contents
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f site/index.html
+          test -f site/manifest.json
+          test -f site/life-hub-192.png
+          test -f site/life-hub-512.png
+          test -n "$(find site/_expo/static/js/web -name 'AppEntry-*.js' -print -quit)"
+          grep -q '/life-hub-web/_expo/' site/index.html
+          grep -q 'noindex,nofollow,noarchive' site/index.html
+          grep -R -q 'msbukmpggridfnpovrxw.supabase.co' site/_expo/static/js/web
+          grep -R -q 'Supabase verbunden' site/_expo/static/js/web
+
+      - name: Retire old service worker and caches
+        shell: bash
+        run: |
+          set -euo pipefail
+          touch site/.nojekyll
+          printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
+          cat > site/sw.js <<'EOF'
+          self.addEventListener('install', () => self.skipWaiting());
+          self.addEventListener('activate', event => {
+            event.waitUntil((async () => {
+              const keys = await caches.keys();
+              await Promise.all(keys.map(key => caches.delete(key)));
+              await self.registration.unregister();
+              const clientsList = await self.clients.matchAll({ type: 'window' });
+              for (const client of clientsList) client.navigate(client.url);
+            })());
+          });
+          EOF
+          python <<'PY'
+          from pathlib import Path
+          p = Path('site/index.html')
+          html = p.read_text()
+          cleanup = """<script>
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => r.unregister()));
+          }
+          if ('caches' in window) {
+            caches.keys().then(keys => Promise.all(keys.map(k => caches.delete(k))));
+          }
+          </script>"""
+          html = html.replace('</body>', cleanup + '\n</body>')
+          p.write_text(html)
+          PY
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
-        with:
-          enablement: true
 
-      - name: Upload site
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: .
+          path: site
 
       - name: Deploy
         id: deployment
