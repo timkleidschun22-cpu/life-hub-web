@@ -14,4 +14,4 @@ The private Life Hub repository builds and validates the static web artifact. A 
 - writes non-indexing files and release metadata;
 - commits only the public build output.
 
-The existing Pages workflow deploys changes under `site/`.
+The promotion workflow deploys the verified `site/` artifact directly to GitHub Pages. The existing Pages workflow remains available for ordinary direct `site/` updates.
