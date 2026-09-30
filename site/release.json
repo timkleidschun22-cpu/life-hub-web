@@ -1,7 +1,7 @@
 {
-  "version": "0.4.4",
-  "sourceCommit": "e960223742d3137a4df319429ac3b4a3f0b75fa8",
-  "webBuild": 36658588542,
-  "validatedSourceCommit": "ce1981ac89a68b9d3c480c3f7022217964c80f62",
-  "androidBuild": 36657964497
+  "version": "0.4.7",
+  "sourceCommit": "1dbb44743c6a2b5273d8979ca820b34f849181ea",
+  "webBuild": 36661969627,
+  "validatedSourceCommit": "28ac02bfca81a10d86966a3e129e7ce3f3658633",
+  "androidBuild": 36661338846
 }
