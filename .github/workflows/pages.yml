@@ -1,13 +1,15 @@
-name: Persist and Deploy Life Hub Web
+name: Deploy Life Hub Web
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
+      - 'site/**'
       - '.github/workflows/pages.yml'
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -24,47 +26,24 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - name: Checkout deployment repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Download verified Life Hub web artifact
+      - name: Verify persisted Life Hub site
         shell: bash
         run: |
           set -euo pipefail
-          rm -rf site-next
-          mkdir -p site-next
-          curl --fail --location --retry 3 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-09c8-8206-99a3-587530a46868/raw?se=2026-09-30T00%3A06%3A39Z&sp=r&sv=2026-02-06&sr=b&scid=2b21b441-7666-5665-a02f-84736eefa87c&skoid=1e4bb9ed-6bb5-424a-a3aa-79f21566e722&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-29T21%3A47%3A00Z&ske=2026-09-30T21%3A47%3A00Z&sks=b&skv=2026-02-06&sig=Udn%2BQe2YMs7o/KcE%2BC1RepDFYhTkYpSIcP6uL3bfPUY%3D' -o /tmp/life-hub-web.zip
-          unzip -q /tmp/life-hub-web.zip -d site-next
-
-      - name: Verify goal-workflow site
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -f site-next/index.html
-          test -f site-next/manifest.json
-          test -n "$(find site-next/_expo/static/js/web -name 'AppEntry-*.js' -print -quit)"
-          grep -q '/life-hub-web/_expo/' site-next/index.html
-          grep -R -q 'Vorhaben starten' site-next/_expo/static/js/web
-          grep -R -q 'GOALS & PROJECTS' site-next/_expo/static/js/web
-          grep -R -q 'msbukmpggridfnpovrxw.supabase.co' site-next/_expo/static/js/web
-          touch site-next/.nojekyll
-          printf 'User-agent: *\nDisallow: /\n' > site-next/robots.txt
-
-      - name: Persist public build in repository
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf site
-          mv site-next site
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -A site
-          if git diff --cached --quiet; then
-            echo "Public site already matches artifact."
-          else
-            git commit -m "Update Life Hub goal workflow site"
-            git push
-          fi
+          test -f site/index.html
+          test -f site/manifest.json
+          test -f site/life-hub-192.png
+          test -f site/life-hub-512.png
+          test -f site/.nojekyll
+          test -n "$(find site/_expo/static/js/web -name 'AppEntry-*.js' -print -quit)"
+          grep -q '/life-hub-web/_expo/' site/index.html
+          grep -q 'noindex,nofollow,noarchive' site/index.html
+          grep -R -q 'msbukmpggridfnpovrxw.supabase.co' site/_expo/static/js/web
+          grep -R -q 'Vorhaben starten' site/_expo/static/js/web
+          grep -R -q 'GOALS & PROJECTS' site/_expo/static/js/web
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
