@@ -1,0 +1,152 @@
+name: Promote verified Life Hub artifact
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'release-source.json'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: promote-life-hub-artifact
+  cancel-in-progress: false
+
+jobs:
+  promote:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout public release repository
+        uses: actions/checkout@v4
+
+      - name: Validate release handoff
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          import json
+          import os
+          from datetime import datetime, timezone
+          from urllib.parse import urlparse
+
+          with open('release-source.json', 'r', encoding='utf-8') as f:
+              source = json.load(f)
+
+          required = ['artifactUrl', 'version', 'sourceCommit', 'webBuild', 'validatedSourceCommit', 'androidBuild', 'expiresAt']
+          missing = [key for key in required if not source.get(key)]
+          if missing:
+              raise SystemExit(f"Missing release-source fields: {', '.join(missing)}")
+
+          parsed = urlparse(source['artifactUrl'])
+          host = (parsed.hostname or '').lower()
+          if parsed.scheme != 'https' or not host.endswith('.oaiusercontent.com'):
+              raise SystemExit('artifactUrl must be an HTTPS OpenAI file handoff URL')
+
+          expires = datetime.fromisoformat(source['expiresAt'].replace('Z', '+00:00'))
+          if expires <= datetime.now(timezone.utc):
+              raise SystemExit('artifactUrl has already expired')
+
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as env:
+              env.write(f"ARTIFACT_URL={source['artifactUrl']}\n")
+          PY
+
+      - name: Download verified static artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --silent --show-error "$ARTIFACT_URL" --output artifact.zip
+
+      - name: Safely extract artifact
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf staging
+          mkdir staging
+          python <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          root_files = {
+              'index.html',
+              'manifest.json',
+              'metadata.json',
+              'life-hub-192.png',
+              'life-hub-512.png',
+          }
+
+          with ZipFile('artifact.zip') as zf:
+              for info in zf.infolist():
+                  path = Path(info.filename)
+                  if path.is_absolute() or '..' in path.parts:
+                      raise SystemExit(f'Unsafe ZIP path: {info.filename}')
+                  if info.is_dir():
+                      continue
+                  allowed = info.filename in root_files or (path.parts and path.parts[0] == '_expo')
+                  if not allowed:
+                      raise SystemExit(f'Unexpected artifact file: {info.filename}')
+              zf.extractall('staging')
+          PY
+
+      - name: Verify Life Hub public build
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f staging/index.html
+          test -f staging/manifest.json
+          test -f staging/metadata.json
+          test -f staging/life-hub-192.png
+          test -f staging/life-hub-512.png
+          BUNDLE="$(find staging/_expo/static/js/web -maxdepth 1 -type f -name 'AppEntry-*.js' -print)"
+          test "$(printf '%s\n' "$BUNDLE" | sed '/^$/d' | wc -l)" -eq 1
+          grep -q '/life-hub-web/_expo/' staging/index.html
+          grep -q 'noindex,nofollow,noarchive' staging/index.html
+          grep -q '"display": "standalone"' staging/manifest.json
+          grep -q 'msbukmpggridfnpovrxw.supabase.co' "$BUNDLE"
+          grep -q 'Vorhaben starten' "$BUNDLE"
+          grep -q 'GOALS & PROJECTS' "$BUNDLE"
+
+      - name: Persist verified site
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf site
+          mkdir -p site
+          cp -a staging/. site/
+          touch site/.nojekyll
+          printf 'User-agent: *\nDisallow: /\n' > site/robots.txt
+          python <<'PY'
+          import json
+
+          with open('release-source.json', 'r', encoding='utf-8') as f:
+              source = json.load(f)
+
+          release = {
+              'version': source['version'],
+              'sourceCommit': source['sourceCommit'],
+              'webBuild': source['webBuild'],
+              'validatedSourceCommit': source['validatedSourceCommit'],
+              'androidBuild': source['androidBuild'],
+          }
+
+          with open('site/release.json', 'w', encoding='utf-8') as f:
+              json.dump(release, f, indent=2)
+              f.write('\n')
+          PY
+
+      - name: Commit promoted site
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add site
+          if git diff --cached --quiet; then
+            echo 'Verified artifact is already published.'
+            exit 0
+          fi
+          VERSION="$(python -c "import json; print(json.load(open('release-source.json'))['version'])")"
+          git commit -m "Publish Life Hub ${VERSION}"
+          git push
