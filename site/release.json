@@ -1,0 +1,7 @@
+{
+  "version": "0.4.7",
+  "sourceCommit": "0535db1b032a1ce198d4aec153d4a909d2e2995",
+  "deployment": "runtime-patched-pages",
+  "runtimePatch": "life-hub-v047.js",
+  "deployedAt": "2026-09-30T06:56:00Z"
+}
