@@ -116,6 +116,8 @@ jobs:
           grep -q 'msbukmpggridfnpovrxw.supabase.co' "$BUNDLE"
           grep -q 'Vorhaben starten' "$BUNDLE"
           grep -q 'GOALS & PROJECTS' "$BUNDLE"
+          grep -q 'Was ist Life Hub?' "$BUNDLE"
+          grep -q 'READINESS' "$BUNDLE"
 
       - name: Persist verified site
         shell: bash
