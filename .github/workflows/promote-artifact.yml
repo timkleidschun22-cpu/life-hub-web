@@ -80,6 +80,7 @@ jobs:
               'metadata.json',
               'life-hub-192.png',
               'life-hub-512.png',
+              'sw.js',
           }
 
           with ZipFile('artifact.zip') as zf:
@@ -104,11 +105,14 @@ jobs:
           test -f staging/metadata.json
           test -f staging/life-hub-192.png
           test -f staging/life-hub-512.png
+          test -f staging/sw.js
           BUNDLE="$(find staging/_expo/static/js/web -maxdepth 1 -type f -name 'AppEntry-*.js' -print)"
           test "$(printf '%s\n' "$BUNDLE" | sed '/^$/d' | wc -l)" -eq 1
           grep -q '/life-hub-web/_expo/' staging/index.html
           grep -q 'noindex,nofollow,noarchive' staging/index.html
           grep -q '"display": "standalone"' staging/manifest.json
+          grep -q "navigator.serviceWorker.register('./sw.js')" staging/index.html
+          grep -q 'life-hub-web-shell-' staging/sw.js
           grep -q 'msbukmpggridfnpovrxw.supabase.co' "$BUNDLE"
           grep -q 'Vorhaben starten' "$BUNDLE"
           grep -q 'GOALS & PROJECTS' "$BUNDLE"
