@@ -141,20 +141,13 @@ jobs:
               f.write('\n')
           PY
 
-      - name: Commit promoted site
+      - name: Prepare verified site for Pages
         shell: bash
         run: |
           set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add site
-          if git diff --cached --quiet; then
-            echo 'Verified artifact is already published.'
-            exit 0
-          fi
           VERSION="$(python -c "import json; print(json.load(open('release-source.json'))['version'])")"
-          git commit -m "Publish Life Hub ${VERSION}"
-          git push
+          echo "Verified Life Hub ${VERSION} is ready for direct Pages deployment."
+          echo "Repository persistence is intentionally skipped because this repository's GITHUB_TOKEN is read-only."
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
