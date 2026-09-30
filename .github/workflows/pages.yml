@@ -40,6 +40,35 @@ jobs:
           grep -R -q 'OBSIDIAN PROJECTION' site/_expo/static/js/web
           grep -R -q 'Recherche offen' site/_expo/static/js/web
 
+      - name: Refuse stale persisted fallback
+        shell: bash
+        run: |
+          set -euo pipefail
+          python <<'PY'
+          import json
+
+          with open('release-source.json', 'r', encoding='utf-8') as f:
+              source = json.load(f)
+          with open('site/release.json', 'r', encoding='utf-8') as f:
+              persisted = json.load(f)
+
+          expected = {
+              'version': source.get('version'),
+              'sourceCommit': source.get('sourceCommit'),
+          }
+          actual = {
+              'version': persisted.get('version'),
+              'sourceCommit': persisted.get('sourceCommit'),
+          }
+
+          if actual != expected:
+              raise SystemExit(
+                  'Refusing manual Pages deployment: persisted site is stale. '
+                  f'Expected {expected}, found {actual}. '
+                  'Use the verified artifact promotion flow instead.'
+              )
+          PY
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
 
