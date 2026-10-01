@@ -1,10 +1,10 @@
 {
-  "artifactUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-d7e0-8206-8e2f-2faae2c5ad36/raw?se=2026-09-30T15%3A36%3A32Z&sp=r&sv=2026-02-06&sr=b&scid=3d3b4532-dda9-5abc-a74e-852a6d25deda&skoid=0765b554-4b90-4fa2-9d6d-0055a2427910&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-30T11%3A28%3A17Z&ske=2026-10-01T11%3A28%3A17Z&sks=b&skv=2026-02-06&sig=zEbh4cCxB1AdYcVATfZm04h0f3ZaJ7KeNn60GiO90Wg%3D",
-  "version": "0.6.5",
-  "sourceCommit": "5b09e248722c6c8ff034e8b085e128d7dab0def2",
-  "webBuild": 36737145873,
-  "validatedSourceCommit": "5b09e248722c6c8ff034e8b085e128d7dab0def2",
+  "artifactUrl": "https://sdmntprjapaneast.oaiusercontent.com/files/00000000-4788-8209-97c4-16121d4c7178/raw?se=2026-10-01T01%3A09%3A16Z&sp=r&sv=2026-02-06&sr=b&scid=44a24ad5-4771-54fa-aae1-740d2550d4e4&skoid=b1bca990-dcac-4c31-8ca1-ac563cf24c54&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-30T23%3A59%3A28Z&ske=2026-10-01T23%3A59%3A28Z&sks=b&skv=2026-02-06&sig=x%2BIn2QlG2XpYloVGhYHCfSpLKSz9qrnuxDNqbqYr8cs%3D",
+  "version": "0.6.6",
+  "sourceCommit": "01ce1806f86cd3a8b40a0755dc8cb3744353b4da",
+  "webBuild": 36799163865,
+  "validatedSourceCommit": "36bab4257b49298b53e228231356023419fbe238",
   "androidBuild": 36715727294,
-  "expiresAt": "2026-09-30T15:36:32Z",
-  "promotionAttempt": 9
+  "expiresAt": "2026-10-01T01:09:16Z",
+  "promotionAttempt": 10
 }
