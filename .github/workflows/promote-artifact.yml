@@ -166,3 +166,48 @@ jobs:
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Verify deployed Pages release
+        shell: bash
+        env:
+          PAGE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          set -euo pipefail
+          VERSION="$(python -c "import json; print(json.load(open('release-source.json'))['version'])")"
+          LIVE_INDEX="$(mktemp)"
+          LIVE_BUNDLE="$(mktemp)"
+
+          for attempt in $(seq 1 12); do
+            CACHE_BUST="?lifehub_verify=${GITHUB_SHA}_${attempt}"
+            if curl --fail --silent --show-error --location               --header 'Cache-Control: no-cache'               "${PAGE_URL}${CACHE_BUST}"               --output "$LIVE_INDEX"; then
+              BUNDLE_PATH="$(python - "$LIVE_INDEX" <<'PY'
+          import re
+          import sys
+
+          html = open(sys.argv[1], 'r', encoding='utf-8').read()
+          match = re.search(r'<script[^>]+src="([^"]*AppEntry-[^"]+\.js)"', html)
+          print(match.group(1) if match else '')
+          PY
+              )"
+
+              if [ -n "$BUNDLE_PATH" ]; then
+                BUNDLE_URL="$(python - "$PAGE_URL" "$BUNDLE_PATH" <<'PY'
+          import sys
+          from urllib.parse import urljoin
+
+          print(urljoin(sys.argv[1], sys.argv[2]))
+          PY
+                )"
+
+                if curl --fail --silent --show-error --location                   --header 'Cache-Control: no-cache'                   "$BUNDLE_URL"                   --output "$LIVE_BUNDLE"                   && grep -Fq "V${VERSION}" "$LIVE_BUNDLE"; then
+                  echo "Verified deployed Life Hub ${VERSION} at ${PAGE_URL}"
+                  exit 0
+                fi
+              fi
+            fi
+
+            sleep 5
+          done
+
+          echo "Deployed Pages release did not match Life Hub ${VERSION} after retries." >&2
+          exit 1
