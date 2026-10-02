@@ -1,10 +1,10 @@
 {
-  "artifactUrl": "https://sdmntpraustraliaeast.oaiusercontent.com/files/00000000-14e4-81fa-a9d6-51173b365413/raw?se=2026-10-02T07%3A49%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=0be578d1-c8fe-5460-8b1e-a4806946ca9a&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A32%3A26Z&ske=2026-10-03T02%3A32%3A26Z&sks=b&skv=2026-02-06&sig=DSh45NT06B22guiVH7V4hL70yLBNDEnheSh1W%2BkUO/E%3D",
+  "artifactUrl": "https://sdmntprnznorth.oaiusercontent.com/files/00000000-4464-820b-9650-365152867f71/raw?se=2026-10-02T07%3A52%3A40Z&sp=r&sv=2026-02-06&sr=b&scid=7e7feef7-c0ec-554c-9ac5-6295054a7597&skoid=f5e14fda-2af7-44a3-9d18-d372ffcad871&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-02T02%3A34%3A16Z&ske=2026-10-03T02%3A34%3A16Z&sks=b&skv=2026-02-06&sig=YoVrdoOkAJkjsYqJ%2BXG%2B3IJai/RmOZ/cwyPeTuvTrtg%3D",
   "version": "0.6.13",
   "sourceCommit": "f9dd972790f533234676ba96631256a47bb49233",
   "webBuild": 36979941521,
   "validatedSourceCommit": "4ee7d1d26cbd2210750aa5101ff0a926d021173e",
   "androidBuild": 36715727294,
-  "expiresAt": "2026-10-02T07:49:03Z",
-  "promotionAttempt": 19
+  "expiresAt": "2026-10-02T07:52:40Z",
+  "promotionAttempt": 20
 }
