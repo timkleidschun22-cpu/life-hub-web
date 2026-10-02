@@ -115,7 +115,7 @@ jobs:
           grep -q 'life-hub-web-shell-' staging/sw.js
           grep -q 'msbukmpggridfnpovrxw.supabase.co' "$BUNDLE"
           grep -q 'Vorhaben starten' "$BUNDLE"
-          grep -Fq 'More — when you need it' "$BUNDLE"
+          grep -Fq 'What matters now' "$BUNDLE"
           grep -q 'Was ist Life Hub?' "$BUNDLE"
           grep -Fq 'Requirements & personal gaps' "$BUNDLE"
 
