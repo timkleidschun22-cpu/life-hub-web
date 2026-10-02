@@ -119,6 +119,7 @@ jobs:
           grep -q 'Was ist Life Hub?' "$BUNDLE"
           grep -Fq 'Requirements & personal gaps' "$BUNDLE"
           grep -Fq 'life-hub-legacy-pre-reset-recovery-only' "$BUNDLE"
+          grep -Fq 'life-hub-obsidian-' "$BUNDLE"
 
       - name: Persist verified site
         shell: bash
