@@ -203,7 +203,7 @@ jobs:
           PY
                 )"
 
-                if curl --fail --silent --show-error --location                   --header 'Cache-Control: no-cache'                   "$BUNDLE_URL"                   --output "$LIVE_BUNDLE"                   && grep -Fq "V${VERSION}" "$LIVE_BUNDLE"; then
+                if curl --fail --silent --show-error --location                   --header 'Cache-Control: no-cache'                   "$BUNDLE_URL"                   --output "$LIVE_BUNDLE"                   && grep -Fq "${VERSION}" "$LIVE_BUNDLE"; then
                   echo "Verified deployed Life Hub ${VERSION} at ${PAGE_URL}"
                   exit 0
                 fi
