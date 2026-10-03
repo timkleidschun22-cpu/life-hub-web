@@ -121,6 +121,7 @@ jobs:
           grep -Fq 'life-hub-legacy-pre-reset-recovery-only' "$BUNDLE"
           grep -Fq 'life-hub-obsidian-' "$BUNDLE"
           grep -Fq 'x-life-hub-reset-epoch' "$BUNDLE"
+          grep -Fq 'learning.session.recorded' "$BUNDLE"
 
       - name: Persist verified site
         shell: bash
