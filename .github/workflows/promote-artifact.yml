@@ -126,6 +126,7 @@ jobs:
           grep -Fq 'planned-task' "$BUNDLE"
           grep -Fq 'Defer' "$BUNDLE"
           grep -Fq 'Make next action' "$BUNDLE"
+          grep -Fq 'Create pairing code' "$BUNDLE"
 
       - name: Persist verified site
         shell: bash
