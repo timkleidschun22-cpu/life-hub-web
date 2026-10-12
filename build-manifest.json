@@ -1,14 +1,14 @@
 {
-  "version": "0.6.31",
-  "sourceCommit": "46fafd0a114a23762af465acfdda0855aba3405b",
-  "webBuild": 38264395496,
+  "version": "0.6.32",
+  "sourceCommit": "42433ce68175bd111e0dc4100f3b340c54dabc9c",
+  "webBuild": 38311178916,
   "files": {
-    "_expo/static/js/web/AppEntry-b694200e615bd2aeae788934d05afe30.js": "10ecec5734d457b4157af6c05713975c55cc1931e9311e586d6308a1cb9898c7",
-    "index.html": "3be9d205809c9a481020ac1b0bc4128785305fe09adcea2d30a574ecb1e2ae0d",
+    "_expo/static/js/web/AppEntry-b015d267a3aaea537170f62a90cdd831.js": "4c7291e611c9e7d42611fa0453507048c751255fc415f96a8fadc44070f7439f",
+    "index.html": "d57e7b0f89eddb0c496a76f7a5e4fff6fcf31502d1443591f58889fcd8f5fd55",
     "life-hub-192.png": "3d6aac804b6be54aa958fa096330ce87afa34ad6f10586b3de822b2d1a426012",
     "life-hub-512.png": "32caf2b219b89d3c3bd014484bc53daba7d25046583ed223a37f0b8c2afb9e81",
     "manifest.json": "ee77e6def36d5381fd9bc15e8b4b796c6f8f3534b9ba10b4069b840ac6501a74",
     "metadata.json": "aa5f19cc84d41c0f8c70ececb2bc82e863227ea1e121632aca879eb616056991",
-    "sw.js": "586646a583a2800c5ab10b2ab67bb3494a38eded29b976b62daf75e945b0ddf8"
+    "sw.js": "4673fd6a01d7dc9a0e28fdf38d8cfdcbc36dd4bda29e027ede47897f25c0925d"
   }
 }
