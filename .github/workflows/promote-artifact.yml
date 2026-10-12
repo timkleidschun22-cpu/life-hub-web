@@ -1,10 +1,15 @@
 name: Promote verified Life Hub artifact
 
 on:
+  workflow_dispatch:
   push:
     branches: [ main ]
     paths:
       - 'release-source.json'
+      - 'build-manifest.json'
+      - 'site/**'
+      - 'scripts/verify-static-release.py'
+      - '.github/workflows/promote-artifact.yml'
 
 permissions:
   contents: read
@@ -27,74 +32,8 @@ jobs:
       - name: Checkout public release repository
         uses: actions/checkout@v4
 
-      - name: Validate release handoff
-        shell: bash
-        run: |
-          set -euo pipefail
-          python <<'PY'
-          import json
-          import os
-          from datetime import datetime, timezone
-          from urllib.parse import urlparse
-
-          with open('release-source.json', 'r', encoding='utf-8') as f:
-              source = json.load(f)
-
-          required = ['artifactUrl', 'version', 'sourceCommit', 'webBuild', 'validatedSourceCommit', 'androidBuild', 'expiresAt']
-          missing = [key for key in required if not source.get(key)]
-          if missing:
-              raise SystemExit(f"Missing release-source fields: {', '.join(missing)}")
-
-          parsed = urlparse(source['artifactUrl'])
-          host = (parsed.hostname or '').lower()
-          if parsed.scheme != 'https' or not host.endswith('.oaiusercontent.com'):
-              raise SystemExit('artifactUrl must be an HTTPS OpenAI file handoff URL')
-
-          expires = datetime.fromisoformat(source['expiresAt'].replace('Z', '+00:00'))
-          if expires <= datetime.now(timezone.utc):
-              raise SystemExit('artifactUrl has already expired')
-
-          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as env:
-              env.write(f"ARTIFACT_URL={source['artifactUrl']}\n")
-          PY
-
-      - name: Download verified static artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          curl --fail --location --silent --show-error "$ARTIFACT_URL" --output artifact.zip
-
-      - name: Safely extract artifact
-        shell: bash
-        run: |
-          set -euo pipefail
-          rm -rf staging
-          mkdir staging
-          python <<'PY'
-          from pathlib import Path
-          from zipfile import ZipFile
-
-          root_files = {
-              'index.html',
-              'manifest.json',
-              'metadata.json',
-              'life-hub-192.png',
-              'life-hub-512.png',
-              'sw.js',
-          }
-
-          with ZipFile('artifact.zip') as zf:
-              for info in zf.infolist():
-                  path = Path(info.filename)
-                  if path.is_absolute() or '..' in path.parts:
-                      raise SystemExit(f'Unsafe ZIP path: {info.filename}')
-                  if info.is_dir():
-                      continue
-                  allowed = info.filename in root_files or (path.parts and path.parts[0] == '_expo')
-                  if not allowed:
-                      raise SystemExit(f'Unexpected artifact file: {info.filename}')
-              zf.extractall('staging')
-          PY
+      - name: Verify durable release handoff
+        run: python scripts/verify-static-release.py
 
       - name: Verify Life Hub public build
         shell: bash

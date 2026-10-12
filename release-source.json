@@ -1,10 +1,9 @@
 {
-  "artifactUrl": "https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-0fb4-8206-873c-92b1072f8ecb/raw?se=2026-10-04T09%3A45%3A46Z&sp=r&sv=2026-02-06&sr=b&scid=e5b67e2b-07ce-5481-9037-13dbcefe99a5&skoid=b1bca990-dcac-4c31-8ca1-ac563cf24c54&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-10-04T01%3A24%3A26Z&ske=2026-10-05T01%3A24%3A26Z&sks=b&skv=2026-02-06&sig=10q/4nuvDwlTh2EGuEYipbkVez5QUFWMo2tEdtjvCOk%3D",
-  "version": "0.6.28",
-  "sourceCommit": "12bfdcb5498d7622d29e3518f9eb205bb4a9dcc5",
-  "webBuild": 37168559289,
-  "validatedSourceCommit": "bd2b3aa887a0be668c3532e3b871ed68e4af1357",
-  "androidBuild": 37168559257,
-  "expiresAt": "2026-10-04T09:45:46.000Z",
-  "promotionAttempt": 35
+  "transport": "git-tree",
+  "version": "0.6.30",
+  "sourceCommit": "f33827b2d7806a39828b62f3cdefb8c5e43123cb",
+  "buildCommit": "2d9ba517f9d76b796e511947f73e54d4f6007ca0",
+  "webBuild": 38258454414,
+  "validatedSourceCommit": "f33827b2d7806a39828b62f3cdefb8c5e43123cb",
+  "androidBuild": 37483955403
 }

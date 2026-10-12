@@ -39,7 +39,22 @@
     </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/life-hub-web/_expo/static/js/web/AppEntry-6314fa842c8ad7dbd65a80bd6424098f.js" defer></script>
-  <script src="./life-hub-v047.js" defer></script>
+  <script src="/life-hub-web/_expo/static/js/web/AppEntry-499d44a860016ba98f6930df9a96bc2b.js" defer></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      const reloadKey = 'life-hub-sw-reload';
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (sessionStorage.getItem(reloadKey) === '1') return;
+        sessionStorage.setItem(reloadKey, '1');
+        window.location.reload();
+      });
+      window.addEventListener('load', () => {
+        sessionStorage.removeItem(reloadKey);
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => registration.update())
+          .catch(() => undefined);
+      });
+    }
+  </script>
 </body>
 </html>
