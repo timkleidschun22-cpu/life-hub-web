@@ -1,7 +1,7 @@
-const CACHE_NAME = "life-hub-web-shell-0347426cde2b2963";
+const CACHE_NAME = "life-hub-web-shell-1e1bdbb14eab15bf";
 const CACHE_FAMILY_PREFIX = 'life-hub-web-';
 const PRECACHE = [
-  "./_expo/static/js/web/AppEntry-4deebf0f1e390cce5b61a3b8b19debd5.js",
+  "./_expo/static/js/web/AppEntry-9f19c03313b53a1c7cc8599aa0a6b734.js",
   "./index.html",
   "./life-hub-192.png",
   "./life-hub-512.png",

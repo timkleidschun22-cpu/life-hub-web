@@ -1,9 +1,9 @@
 {
   "transport": "git-tree",
-  "version": "0.6.34",
-  "sourceCommit": "ca7f9022938af8239bc1930eda83b7cc20a468c4",
-  "buildCommit": "d00f683d7e33402714582722727e611d0556cf76",
-  "webBuild": 38324954544,
-  "validatedSourceCommit": "ca7f9022938af8239bc1930eda83b7cc20a468c4",
+  "version": "0.6.35",
+  "sourceCommit": "bfc61d0307de09935bc70d67d90d89ed3205970a",
+  "buildCommit": "da1c1f24da834cd803fd711dcc588cdb8932402c",
+  "webBuild": 38365370299,
+  "validatedSourceCommit": "bfc61d0307de09935bc70d67d90d89ed3205970a",
   "androidBuild": null
 }
